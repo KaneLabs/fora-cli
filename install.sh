@@ -76,7 +76,11 @@ esac
 OS="$(uname -s | tr '[:upper:]' '[:lower:]')"
 case "$OS" in
   linux)
-    TARGET="${ARCH}-unknown-linux-musl"
+    # Glibc target — works on any Linux distro with glibc 2.31+ (Ubuntu
+    # 20.04+, Debian 11+, RHEL 8+, Amazon Linux 2023). On older systems
+    # the binary will fail to load with a glibc version error; build from
+    # source via `cargo install --git ...` is the fallback for those.
+    TARGET="${ARCH}-unknown-linux-gnu"
     ;;
   darwin)
     # No prebuilt macOS binary — we build on ubicloud which has no macOS
